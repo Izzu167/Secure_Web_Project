@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-dark text-white">
+                <h4>
+                    {% if request.session.lang == 'ms' %}
+                        {% if form.instance.pk %}Sunting Tugasan{% else %}Cipta Tugasan Baru{% endif %}
+                    {% else %}
+                        {% if form.instance.pk %}Edit Task{% else %}Create New Task{% endif %}
+                    {% endif %}
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label>
+                            {% if request.session.lang == 'ms' %}Tajuk Tugasan{% else %}Task Title{% endif %}
+                        </label>
+                        {{ form.title }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label>
+                            {% if request.session.lang == 'ms' %}Deskripsi{% else %}Description{% endif %}
+                        </label>
+                        {{ form.description }}
+                    </div>
+
+                    <div class="form-check mb-3">
+                        {{ form.completed }}
+                        <label class="form-check-label">
+                            {% if request.session.lang == 'ms' %}Tandakan jika sudah selesai{% else %}Mark as completed{% endif %}
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        {% if request.session.lang == 'ms' %}Simpan{% else %}Save{% endif %}
+                    </button>
+                    
+                    <a href="{% url 'task_list' %}" class="btn btn-secondary">
+                        {% if request.session.lang == 'ms' %}Batal{% else %}Cancel{% endif %}
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

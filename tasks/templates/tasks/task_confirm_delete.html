@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card border-danger shadow">
+            <div class="card-header bg-danger text-white">
+                <h4>
+                    {% if request.session.lang == 'ms' %}Sahkan Hapus Task{% else %}Confirm Delete Task{% endif %}
+                </h4>
+            </div>
+            <div class="card-body text-center">
+                <p class="lead">
+                    {% if request.session.lang == 'ms' %}
+                        Adakah anda pasti mahu memadam task ini?
+                    {% else %}
+                        Are you sure you want to delete this task?
+                    {% endif %}
+                </p>
+                <h3 class="fw-bold">"{{ task.title }}"</h3>
+                <br>
+                <form method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-lg">
+                        {% if request.session.lang == 'ms' %}Ya, Padam{% else %}Yes, Delete{% endif %}
+                    </button>
+                    <a href="{% url 'task_list' %}" class="btn btn-secondary btn-lg">
+                        {% if request.session.lang == 'ms' %}Batal{% else %}Cancel{% endif %}
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

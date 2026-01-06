@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mt-4 mb-3">
+    {% if request.session.lang == 'ms' %}
+        <h2>Senarai Tugasan</h2>
+        <a href="{% url 'task_create' %}" class="btn btn-success">+ Tambah Task Baru</a>
+    {% else %}
+        <h2>Task List</h2>
+        <a href="{% url 'task_create' %}" class="btn btn-success">+ Add New Task</a>
+    {% endif %}
+</div>
+
+<div class="row">
+    {% for task in tasks %}
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100 border-{% if task.completed %}success{% else %}warning{% endif %}">
+            <div class="card-body">
+                <h5 class="card-title">{{ task.title }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Owner: {{ task.user.username }}</h6>
+                <p class="card-text">{{ task.description|truncatewords:20 }}</p>
+                
+                {% if task.completed %}
+                    <span class="badge bg-success">
+                        {% if request.session.lang == 'ms' %}Selesai{% else %}Completed{% endif %}
+                    </span>
+                {% else %}
+                    <span class="badge bg-warning text-dark">
+                        {% if request.session.lang == 'ms' %}Dalam Proses{% else %}In Progress{% endif %}
+                    </span>
+                {% endif %}
+            </div>
+            <div class="card-footer bg-white border-top-0">
+                <a href="{% url 'task_update' task.pk %}" class="btn btn-sm btn-outline-primary">
+                    {% if request.session.lang == 'ms' %}Sunting{% else %}Edit{% endif %}
+                </a>
+                <a href="{% url 'task_delete' task.pk %}" class="btn btn-sm btn-outline-danger">
+                    {% if request.session.lang == 'ms' %}Padam{% else %}Delete{% endif %}
+                </a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info">
+            {% if request.session.lang == 'ms' %}
+                Tiada task dijumpai. Sila tambah task baru.
+            {% else %}
+                No tasks found. Please add a new task.
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
