@@ -1,0 +1,5 @@
+pip install python-dotenv
+
+python -m pip install Django
+
+python -m pip install pillow
